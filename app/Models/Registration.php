@@ -22,4 +22,11 @@ class Registration extends Model
     public function station(){
         return $this->belongsTo(Station::class);
     }
+
+    public function femaleNumber(){
+        $result = substr($this->phone, 0, 4);
+        $result .= "****";
+        $result .= substr($this->phone, 7, 4);
+        return $result;
+    }
 }

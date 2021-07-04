@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Hash;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    
+
     // public function registerView()
     // {
     //     return view('auth.register');
@@ -49,32 +47,32 @@ class AuthController extends Controller
             return redirect()->back()->with('error', 'Credentials not matched');
         }
 
-        return redirect('backend/dashboard')->with('message',' successfully Login');
+        return redirect('backend/dashboard')->with('message', ' successfully Login');
     }
 
-    public function changepass(){
+    public function changepass()
+    {
         $data = request()->validate([
             'old_pass' => 'required',
             'password' => 'required',
         ]);
-        $old_pass = request('old_pass') ;
+
+        $old_pass = request('old_pass');
         $users = Auth::user();
-        
-        // dd($old_pass);
-        if(Hash::check($old_pass, $users->password)){
-            $users->password = Hash::make(request('password')) ;
+
+        if (Hash::check($old_pass, $users->password)) {
+            $users->password = Hash::make(request('password'));
             $users->update();
             return response()->json([
-                'status' => 'done'
+                'status' => 'done',
+                'message' => 'Password Updated'
             ]);
-        }else{
+        } else {
             return response()->json([
                 'error' => 'error'
             ]);
         }
     }
-
-
 
 
     public function logout()
@@ -84,8 +82,5 @@ class AuthController extends Controller
     }
 
 
-
-
-   
 }
 

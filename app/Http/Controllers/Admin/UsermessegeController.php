@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\SendMail;
 use Illuminate\Http\Request;
 use App\Models\Contact;
+use Illuminate\Support\Facades\Mail;
 
 class UsermessegeController extends Controller
 {
@@ -40,9 +42,15 @@ class UsermessegeController extends Controller
     {
        $to_email = request('to_email');
        $from_email = request('from_email');
-       $sebject = request('subject');
+       $subject = request('subject');
        $message = request('message');
-       dd($to_email,$from_email,$sebject,$message);
+
+        if(Mail::to($to_email)->send(new SendMail($from_email, $subject, $message))){
+            return response()->json([
+                'status' => 'done',
+                'message' => 'Reply Success'
+            ]);
+        }
     }
 
     /**

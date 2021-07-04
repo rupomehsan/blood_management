@@ -4,7 +4,7 @@
 	<div class="col-md-2"> </div>
           <div class="col-md-10">
             <div class="content-panel">
-                
+
 
               <h4><i class="fa fa-angle-right"></i>All Posted informasion</h4><hr>
                  <form method="GET" action="#">
@@ -12,7 +12,7 @@
                           <button type="submit"><i class="fa fa-search"></i></button>
                    </form>
 
-                     <div class="scrolsec" style="overflow-x:auto; overflow: scroll;height: 550px;">      
+                     <div class="scrolsec" style="overflow-x:auto; overflow: scroll;height: 550px;">
                       <table class="table table-striped table-advance table-hover">
                 <thead>
                   <tr>
@@ -27,7 +27,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                   
+
                   @if (count($blogs))
                      @foreach ($blogs as $blog)
                          <tr>
@@ -43,7 +43,7 @@
                             <button onclick="deleteItem({{ $blog->id }})" data-id="" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
                           </td>
                          </tr>
-                     @endforeach 
+                     @endforeach
                   @endif
 
                 </tbody>
@@ -122,7 +122,7 @@
               console.log(err)
             }
           })
-         
+
         } else if (
           /* Read more about handling dismissals below */
           result.dismiss === Swal.DismissReason.cancel

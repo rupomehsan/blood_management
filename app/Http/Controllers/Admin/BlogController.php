@@ -50,7 +50,7 @@ class BlogController extends Controller
         // if (!file_exists('uploads/products')) {
         //     $dir = mkdir('uploads/products');
         // }
-       
+
         $blog = new Blog();
         $blog->title = request('title');
         $blog->sub_title = request('sub_title');
@@ -100,7 +100,7 @@ class BlogController extends Controller
     public function update(Request $request, $id)
     {
         $blog = Blog::where('id',$id)->first();
-        
+
         $blog->title = request('title') ?? $blog->title;
         $blog->sub_title = request('sub_title') ?? $blog->sub_title;
         $blog->desc = request('desc') ?? $blog->desc ;
@@ -125,9 +125,20 @@ class BlogController extends Controller
      */
     public function destroy($id)
     {
-        Blog::find($id)->delete();
-        return response()->json([
-            'status' => 'done'
-        ]);
+        try{
+            $blog = Blog::find($id);
+
+            if(file_exists($blog->image)){
+                unlink($blog->image);
+            }
+            $blog->delete();
+            return response()->json([
+                'status' => 'done',
+                'message' => 'Blog Deleted'
+            ]);
+        }catch(\Exception $e){
+            return $e->getMessage();
+        }
+
     }
 }

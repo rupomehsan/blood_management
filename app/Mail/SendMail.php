@@ -16,9 +16,15 @@ class SendMail extends Mailable
      *
      * @return void
      */
-    public function __construct()
+    public $from;
+    public $subject;
+    public $message;
+
+    public function __construct($from, $subject, $message)
     {
-        //
+        $this->from = $from;
+        $this->subject = $subject;
+        $this->message = $message;
     }
 
     /**
@@ -28,6 +34,8 @@ class SendMail extends Mailable
      */
     public function build()
     {
-        return $this->view('view.name');
+        return $this->subject($this->subject)->from($this->from)->view('emails.reply-message', [
+            'message' => $this->message
+        ]);
     }
 }
