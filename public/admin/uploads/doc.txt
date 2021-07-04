@@ -1,0 +1,1 @@
+ <option value="<?php echo $value['user_bloodgp']?>" <?php if(isset($_POST['blood']) and ($_POST['blood']==$value['user_bloodgp'])) echo 'selected' ?> ><?php echo $value['user_bloodgp']?></option>
