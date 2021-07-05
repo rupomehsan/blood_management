@@ -49,7 +49,10 @@
             Formdata.append('_token','{{csrf_token()}}')
             Formdata.append('title',title)
             Formdata.append('desc',desc)
-            Formdata.append('image',image)
+            if(image !== null){
+                Formdata.append('image',image)
+            }
+    
     
             $.ajax({
                 url : '{{url('backend/mypages')}}',

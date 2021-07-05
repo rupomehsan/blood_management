@@ -16,19 +16,23 @@
                 <form method="GET" action="search-doner">
 
                     <div class="form-group dvsn-btn" style="width: 30%; display: inline-block;">
-                        <select class="form-control" name="division">
+                        <select class="form-control" id="divition_id">
                             <option class="" value="">Division</option>
+                            @foreach ($divitions as $divition)
+                            <option class="" value="{{$divition->id}}">{{$divition->name}}</option>
+                            @endforeach
+                           
                         </select>
                     </div>
                     <div class="form-group dvsn-btn" style="width: 30%; display: inline-block;">
-                        <select class="form-control" name="division">
+                        <select class="form-control" id="district_id">
                             <option class="" value="">District</option>
                         </select>
                     </div>
 
 
-                    <input type="text" name="search" placeholder="Search.....">
-                    <button type="submit"><i class="fa fa-search"></i></button>
+                    <input type="text" id="search" placeholder="Search.....">
+                    {{-- <button type="submit"><i class="fa fa-search"></i></button> --}}
 
 
                 </form>
@@ -49,6 +53,7 @@
                     <th>Address</th>
                     <th>Blood Group</th>
                     <th>Division</th>
+                    <th>District</th>
                     <th>View Detailse</th>
                 </tr>
 
@@ -69,6 +74,7 @@
                             <td>{{$alldoner->address}}</td>
                             <td>{{$alldoner->bloodgroup->name}}</td>
                             <td>{{$alldoner->divition->name}}</td>
+                            <td>{{$alldoner->district->name}}</td>
                             <td>
                                 <a href="{{url('blood-doner-detailse',$alldoner->id)}}">
                                     <i class="fa fa-plus-circle" aria-hidden="true"></i></a>
@@ -101,4 +107,151 @@
             service you can contact with admin...</h3>
 
 
+@endsection
+@section('custom_js')
+    <script>
+            $('#divition_id').change(function () {
+                var divition_id = $('#divition_id').val()
+              
+
+                $.ajax({
+                    url: '{{url('api/get-district')}}/' + divition_id,
+                    method: 'get',
+                    datatype: 'json',
+                    success: function (res) {
+                        console.log(res)
+                        if (res.status == 'done') {
+                            $('#district_id').empty()
+                            $('#district_id').append(`
+                        <option disabled selected>Select Your District</option>
+                        `)
+                            res.district.forEach(function (item) {
+                                $('#district_id').append(`
+                         <option value="${item.id}" >${item.name}</option>
+                         `)
+                            })
+                        }
+                    },
+                    error: function (err) {
+                        console.log(error)
+                    }
+                })
+            })
+
+            $('#divition_id').change(function () {
+                var divition_id = $('#divition_id').val()
+
+                $.ajax({
+                    url: '{{url('all-blood-doner/divition')}}/' + divition_id,
+                    method: 'get',
+                    datatype: 'json',
+                    success: function (res) {
+                        console.log(res)
+                        if(res.status == 'ok'){
+                            $('#tableBody').empty()
+                            res.srcDoner.forEach(function(item){
+                                $('#tableBody').append(`
+                                <tr>
+                                    <td>1</td>
+                                    <td>${item.name}</td>
+                                    <td>${item.phone}</td>
+                                    <td>${item.email}</td>
+                                    <td>${item.address}</td>
+                                    <td>${item.bloodgroup_id}</td>
+                                    <td>${item.divition_id}</td>
+                                    <td>${item.district_id}</td>
+                                    <td>
+                                        <a href="{{url('blood-doner-detailse',$alldoner->id)}}">
+                                        <i class="fa fa-plus-circle" aria-hidden="true"></i></a>
+                                    </td>
+                                 </tr>
+                                `)
+                            })
+                        }
+                    },
+                    error: function (err) {
+                        console.log(error)
+                    }
+                })
+            })
+
+            $('#district_id').change(function () {
+                var district_id = $('#district_id').val()
+
+                $.ajax({
+                    url: '{{url('all-blood-doner/district')}}/' + district_id,
+                    method: 'get',
+                    datatype: 'json',
+                    success: function (res) {
+                        console.log(res)
+                        if(res.status == 'ok'){
+                            $('#tableBody').empty()
+                            res.srcDoner.forEach(function(item){
+                                $('#tableBody').append(`
+                                <tr>
+                                    <td>1</td>
+                                    <td>${item.name}</td>
+                                    <td>${item.phone}</td>
+                                    <td>${item.email}</td>
+                                    <td>${item.address}</td>
+                                    <td>${item.bloodgroup_id}</td>
+                                    <td>${item.divition_id}</td>
+                                    <td>${item.district_id}</td>
+                                    <td>
+                                        <a href="{{url('blood-doner-detailse',$alldoner->id)}}">
+                                        <i class="fa fa-plus-circle" aria-hidden="true"></i></a>
+                                    </td>
+                                 </tr>
+                                `)
+                            })
+                        }
+                    },
+                    error: function (err) {
+                        console.log(error)
+                    }
+                })
+            })
+
+            $('#search').keyup(function(){
+                var search = $('#search').val()
+
+                $.ajax({
+                    url: '{{url('all-blood-doner/search')}}',
+                    method: 'get',
+                    data :{
+                        'search' : search,
+                    },
+                    datatype: 'json',
+                    success: function (res) {
+                        console.log(res)
+                        if(res.status == 'ok'){
+                            $('#tableBody').empty()
+                            res.srcDoner.forEach(function(item){
+                                $('#tableBody').append(`
+                                <tr>
+                                    <td>1</td>
+                                    <td>${item.name}</td>
+                                    <td>${item.phone}</td>
+                                    <td>${item.email}</td>
+                                    <td>${item.address}</td>
+                                    <td>${item.bloodgroup_id}</td>
+                                    <td>${item.divition_id}</td>
+                                    <td>${item.district_id}</td>
+                                    <td>
+                                        <a href="{{url('blood-doner-detailse',$alldoner->id)}}">
+                                        <i class="fa fa-plus-circle" aria-hidden="true"></i></a>
+                                    </td>
+                                 </tr>
+                                `)
+                            })
+                        }
+                    },
+                    error: function (err) {
+                        console.log(error)
+                    }
+                })
+                
+            })
+
+    </script>
 @endsection

@@ -207,14 +207,7 @@
                                                 showConfirmButton: false,
                                                 timer: 1500
                                             })
-                                            // $('#name').val('')
-                                            // $('#email').val('')
-                                            // $('#phone').val('')
-                                            // $('#social_link').val('')
-                                            // $('#address').val('')
-                                            // $('#bloodgp_id').empty()
-                                            // $('#divition_id').empty()
-                                            // $('#district_id').empty()
+                                          
                                             setTimeout(function () {
                                                 window.location.reload(1);
                                             }, 1000);

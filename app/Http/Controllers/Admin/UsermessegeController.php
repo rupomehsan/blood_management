@@ -22,6 +22,27 @@ class UsermessegeController extends Controller
         return view('admin.all_messege.index',compact('contacts'));
     }
 
+    public function get_message(){
+
+        $contactmsg = Contact::where('status',1)->take(5)->get();
+        $msgcount = $contactmsg->count();
+        return response()->json([
+            'contactmsg' => $contactmsg,
+            'msgcount' =>$msgcount
+        ]);
+    }
+    public function seen_message($id){
+
+        $contactmsg = Contact::where('id',$id)->first();
+        $contactmsg->status = 0;
+        $contactmsg->update();
+        return response()->json([
+            'msg' =>'successfully update'
+           
+        ]);
+    }
+
+
     /**
      * Show the form for creating a new resource.
      *
@@ -102,4 +123,16 @@ class UsermessegeController extends Controller
             'status' => 'done'
         ]);
     }
+
+    public function search_message(){
+        $searchdata = Contact::where('First_name','like', '%' . request('search') . '%')
+        ->orWhere('last_name','like', '%' . request('search') . '%')
+        ->orWhere('phone','like', '%' . request('search') . '%')
+        ->orWhere('opinio','like', '%' . request('search') . '%')
+        ->get();
+        return response()->json([
+            'searchdata' => $searchdata
+        ]);
+    }
+
 }

@@ -24,6 +24,49 @@
   <link href="{{asset('admin')}}/css/style-responsive.css" rel="stylesheet">
   <script src="{{asset('admin')}}/lib/chart-master/Chart.js"></script>
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    /* Dropdown Button */
+.dropbtn {
+  color: white;
+  padding: 5px;
+  font-size: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.418);
+  background: none;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 260px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #ddd;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block;}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {background-color: #0a160b;}
+  </style>
 </head>
 
 <body>
@@ -45,160 +88,63 @@
         <!--  notification start -->
         <ul class="nav top-menu">
           <!-- settings start -->
-          <li class="dropdown">
-            <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
-              <i class="fa fa-tasks"></i>
-                <span _ngcontent-lgt-c89="" class="heartbit" style="margin-top: 5px;"></span>
-               <!--  <span _ngcontent-lgt-c89="" class="point"></span> -->
-               <span class="badge bg-theme">4</span>
+          <div class="dropdown">
+            <button class="dropbtn"> <i class="fa fa-tasks"></i></button>
+            <span _ngcontent-lgt-c89="" class="heartbit" style="margin-top: 5px;"></span>
+          <span class="badge bg-theme">5</span>
+            <div class="dropdown-content">
+              <a href="#"><div class="notify-arrow notify-arrow-green"></div>
+                <li>
+                  <p class="green">You have 4 pending tasks</p>
+                </li></a>
+              <a href="#">Link 2</a>
+              <a href="#">Link 3</a>
+            </div>
+          </div>
 
-              </a>
+          <div class="dropdown">
+            <button class="dropbtn">  <i class="fa fa-envelope-o"></i></button>
+            <span _ngcontent-lgt-c89="" class="heartbit" style="margin-top: 5px;"></span>
+          <span class="badge bg-theme" id="countmsg">0</span>
+            <div class="dropdown-content">
+              <a href="#" class="bg-warning"><div class="notify-arrow notify-arrow-green"></div>
+                <li>
+                  <p class="green" id="pendingmsg">You have 0 pending tasks</p>
+                </li></a>
+                <div id="message">
+                  <a href="#">
+                    <li>
+                        <span class="from">1:-</span>
+                        <span class="from">Name:rupom ehsan</span>
+                        <span class="time">time:</span>
+                        <span class="message">massage:My name’s Eri...</span>
+                    </li>
+                  </a>
+                </div>
+            </div>
+          </div>
 
-            <ul class="dropdown-menu extended tasks-bar">
-              <div class="notify-arrow notify-arrow-green"></div>
-              <li>
-                <p class="green">You have 4 pending tasks</p>
-              </li>
-              <li>
-                <a href="index.html#">
-                  <div class="task-info">
-                    <div class="desc">Dashio Admin Panel</div>
-                    <div class="percent">40%</div>
-                  </div>
-                  <div class="progress progress-striped">
-                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-                      <span class="sr-only">40% Complete (success)</span>
-                    </div>
-                  </div>
-                </a>
-              </li>
-              <li>
-                <a href="index.html#">
-                  <div class="task-info">
-                    <div class="desc">Database Update</div>
-                    <div class="percent">60%</div>
-                  </div>
-                  <div class="progress progress-striped">
-                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
-                      <span class="sr-only">60% Complete (warning)</span>
-                    </div>
-                  </div>
-                </a>
-              </li>
-              <li>
-                <a href="index.html#">
-                  <div class="task-info">
-                    <div class="desc">Product Development</div>
-                    <div class="percent">80%</div>
-                  </div>
-                  <div class="progress progress-striped">
-                    <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
-                      <span class="sr-only">80% Complete</span>
-                    </div>
-                  </div>
-                </a>
-              </li>
-              <li>
-                <a href="index.html#">
-                  <div class="task-info">
-                    <div class="desc">Payments Sent</div>
-                    <div class="percent">70%</div>
-                  </div>
-                  <div class="progress progress-striped">
-                    <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width: 70%">
-                      <span class="sr-only">70% Complete (Important)</span>
-                    </div>
-                  </div>
-                </a>
-              </li>
-              <li class="external">
-                <a href="#">See All Tasks</a>
-              </li>
-            </ul>
-          </li>
-          <!-- settings end -->
-          <!-- inbox dropdown start-->
-          <li id="header_inbox_bar" class="dropdown">
-            <a data-toggle="dropdown" class="dropdown-toggle">
-              <i class="fa fa-envelope-o"></i>
-                <span _ngcontent-lgt-c89="" class="heartbit" style="margin-top: 5px;"></span>
-              <span class="badge bg-theme">5</span>
-              </a>
-            <ul class="dropdown-menu extended inbox">
-              <div class="notify-arrow notify-arrow-green"></div>
-              <li>
-                <p class="green">You have 5 new messages</p>
-              </li>
- 
-
-              
-                 <li>
-              
-                <!--   <span class="photo"><img alt="avatar" src="img/ui-zac.jpg"></span> -->
-                  <!-- <span class="subject"> -->
-                  <td>:</td>
-                  <span class="from">:</span>
-                  <span class="time">.</span>
-                  </span>
-                  <span class="message">massage:</span>
-                 
-                  <button class="btn-one"> view</a></a></button>
-              </li>
-
+          <div class="dropdown">
+            <button class="dropbtn">   <i class="fa fa-bell-o"></i></i></button>
+            <span _ngcontent-lgt-c89="" class="heartbit" style="margin-top: 5px;"></span>
+          <span class="badge bg-theme" id="donercount">0</span>
+            <div class="dropdown-content">
+              <a href="#"><div class="notify-arrow notify-arrow-green"></div>
+                <li>
+                  <p class="green" id="pendingnotification">You have 0 Seen Notification</p>
+                </li></a>
+                <div id="register">
+                   <a href="#">
+                    <li>
+                      <span class="from">1:-</span>
+                      <span class="from">Name:rupom ehsan</span>
+                      <span class="time">time:</span>
+                  </li>
+                   </a>
+                </div>
+            </div>
+          </div>
         
-
-
-              <li class="sebtn">
-                <a href="user-massage.php" >See all messages</a>
-              </li>
-            </ul>
-          </li>
-          <!-- inbox dropdown end -->
-          <!-- notification dropdown start-->
-          <li id="header_notification_bar" class="dropdown">
-            <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
-              <i class="fa fa-bell-o"></i>
-              <span _ngcontent-lgt-c89="" class="heartbit" style="margin-top: 5px;"></span>
-              <span class="badge bg-warning">7</span>
-              </a>
-            <ul class="dropdown-menu extended notification">
-              <div class="notify-arrow notify-arrow-yellow"></div>
-              <li>
-                <p class="yellow">You have 7 new notifications</p>
-              </li>
-              <li>
-                <a href="index.html#">
-                  <span class="label label-danger"><i class="fa fa-bolt"></i></span>
-                  Server Overloaded.
-                  <span class="small italic">4 mins.</span>
-                  </a>
-              </li>
-              <li>
-                <a href="index.html#">
-                  <span class="label label-warning"><i class="fa fa-bell"></i></span>
-                  Memory #2 Not Responding.
-                  <span class="small italic">30 mins.</span>
-                  </a>
-              </li>
-              <li>
-                <a href="index.html#">
-                  <span class="label label-danger"><i class="fa fa-bolt"></i></span>
-                  Disk Space Reached 85%.
-                  <span class="small italic">2 hrs.</span>
-                  </a>
-              </li>
-              <li>
-                <a href="index.html#">
-                  <span class="label label-success"><i class="fa fa-plus"></i></span>
-                  New User Registered.
-                  <span class="small italic">3 hrs.</span>
-                  </a>
-              </li>
-              <li>
-                <a href="index.html#">See all notifications</a>
-              </li>
-            </ul>
-          </li>
           <!-- notification dropdown end -->
         </ul>
         <!--  notification end -->
@@ -324,6 +270,102 @@
       console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
     }
   </script>
+
+  <script>
+      $.ajax({
+            method : 'get',
+            url    : '{{route("api.get-message")}}',
+            datatype: 'json',
+            success:function(res){
+              console.log(res)
+              if(res.contactmsg){
+                $('#message').empty()
+                $('#countmsg').empty()
+                $('#countmsg').append(res.msgcount)
+                $('#pendingmsg').empty()
+                $('#pendingmsg').append(`You have ${res.msgcount} pending Message`)
+                res.contactmsg.forEach(function(item){
+                  $('#message').append(`
+                    <a href="javascript:void(0)" onclick="seenmsg(${item.id})">
+                      <li>
+                          <span class="from">${item.id}:-</span>
+                          <span class="from"> Name : ${item.first_name} ${item.last_name}</span>
+                          <span class="time"> - Time : ${item.created_at}</span>
+                          <span class="message">Message : ${item.opinion}</span>
+                      </li>
+                    </a>
+                  `)
+                })
+              }
+                // $('#site_logo').removeAttr('src')
+                // $('#site_logo').attr('src','{{asset('')}}'+ data.site_logo)
+            }
+        })
+  </script>
+  <script>
+    function seenmsg(id){
+      console.log(id)
+      $.ajax({
+            method : 'post',
+            url    : '{{url('api/seen-message')}}/'+ id,
+            datatype: 'json',
+            success:function(res){
+              console.log(res)
+            },
+            error :function(err){
+              console.log(err)
+            }
+        })
+    }
+  </script>
+
+<script>
+  $.ajax({
+        method : 'get',
+        url    : '{{route("api.get-doner")}}',
+        datatype: 'json',
+        success:function(res){
+          console.log(res)
+          if(res.getdoner){
+            $('#register').empty()
+            $('#donercount').empty()
+            $('#donercount').append(res.donercount)
+            $('#pendingnotification').empty()
+            $('#pendingnotification').append(`You have ${res.donercount} pending Message`)
+            res.getdoner.forEach(function(item){
+              $('#register').append(`
+                <a href="javascript:void(0)" onclick="seendoner(${item.id})">
+                  <li>
+                      <span class="from">${item.id}:-</span>
+                      <span class="from"> Name : ${item.name}</span>
+                      <span class="time"> - Time : ${item.created_at}</span>
+                  </li>
+                </a>
+              `)
+            })
+          }
+            // $('#site_logo').removeAttr('src')
+            // $('#site_logo').attr('src','{{asset('')}}'+ data.site_logo)
+        }
+    })
+</script>
+
+<script>
+  function seendoner(id){
+    console.log(id)
+    $.ajax({
+          method : 'post',
+          url    : '{{url('api/seen-doner')}}/'+ id,
+          datatype: 'json',
+          success:function(res){
+            console.log(res)
+          },
+          error :function(err){
+            console.log(err)
+          }
+      })
+  }
+</script>
  
 </body>
 

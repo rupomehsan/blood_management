@@ -54,7 +54,10 @@
             Formdata.append('title',title)
             Formdata.append('desc',desc)
             Formdata.append('sub_title',sub_title)
-            Formdata.append('image',image)
+            if(image !== null){
+                Formdata.append('image',image)
+            }
+          
     
             $.ajax({
                 url : '{{url('backend/blogs')}}/' + id,

@@ -7,7 +7,7 @@
             
               <h4><i class="fa fa-angle-right"></i>All USER MASSAGE</h4><hr>
                  <form method="GET" action="serch-result.php">
-                          <input type="text" name="search" placeholder="Search....." >
+                          <input type="text" id="search" placeholder="Search....." >
                           <button type="submit"><i class="fa fa-search"></i></button>
                    </form>
 
@@ -26,7 +26,7 @@
                    
                   </tr>
                 </thead>
-                <tbody>
+                <tbody id="tablebody">
                  @if (count($contacts))
                     @foreach ($contacts as $contact)
                     <tr>
@@ -126,5 +126,51 @@
 
 
   }
+
+ $('#search').keyup(function(){
+  var search = $('#search').val()
+  $.ajax({
+    url : '{{url('api/search-message')}}',
+    method: 'get',
+    data : {
+      'search' : search,
+      },
+    dataType : 'json',
+    success: function(res){
+      console.log(res)
+      if(res.searchdata){
+        $('#tablebody').empty()
+
+        res.searchdata.forEach(function(item){
+          $('#tablebody').append(`
+              <tr>
+                <td>${item.id}</td>
+                <td>${item.first_name}</td>
+                <td>${item.last_name}</td>
+                <td>${item.phone}</td>
+                <td>${item.email}</td>
+                <td>${item.opinion}</td>
+                <td>${item.created_at}</td>
+                <td>
+                  <a href="{{route('user-messeges.show',$contact->id)}}" class="btn btn-success">View</a>
+                  <a href="{{route('user-messeges.edit',$contact->id)}}" class="btn btn-primary">Reply</a>
+                  <button onclick="deleteItem({{ $contact->id }})" data-id="" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                </td>
+              </tr>
+          `)
+        })
+      
+      }
+    },
+    error : function(err){
+
+    }
+  })
+ })
+  
+
+
+
+
 </script>
 @endsection

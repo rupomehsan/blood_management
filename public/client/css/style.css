@@ -4716,7 +4716,7 @@ textarea.input100 {
 }
 
 .all-doner-top input[type=text]:focus {
- width: 49%;
+    width: 30%;
 }
 .form-control {
     width: 100%;

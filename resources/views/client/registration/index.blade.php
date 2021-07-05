@@ -63,7 +63,7 @@
 
                             <div class="form-group">
 
-                                <div class="maxl" id="status">
+                                <div class="maxl">
                                     <h5 style="color:green;margin-top:35px;">Are you donate before ? : <span
                                             style="color:red;">*</span></h5>
 
@@ -80,6 +80,7 @@
                                         </label>
                                     </div>
                                 </div>
+                                <div id="status" style="margin-top:40px;"></div>
                             </div>
                             <div class="form-group">
                                 <div class="custom-file">
@@ -126,7 +127,7 @@
 
                             <div class="form-group" style="">
                                 <h5 style="margin-top:40px;">Gender : <span style="color:red;">*</span></h5>
-                                <div class="maxl" id="gender">
+                                <div class="maxl" >
                                     <div class="col-md-6">
                                         <label class="radio inline">
                                             <input type="radio" name="gender" value="Male">
@@ -139,10 +140,11 @@
                                             <span>Female </span>
                                         </label>
                                     </div>
+                                    
                                 </div>
+                               
                             </div>
-
-
+                            <div id="gender" style="margin-top:40px;"></div>
                         </div>
                         <input type="submit" class="btnRegister btnRegister2" name="submit" value="Register"/>
                     </form>
@@ -276,9 +278,9 @@
                             if (error.donate_status) {
                                 $('#status').after('<div class="alert alert-danger error">Status  is required</div>')
                             }
-                            if (error.image) {
-                                $('#image').after('<div class="alert alert-danger error">Image  is required</div>')
-                            }
+                            // if (error.image) {
+                            //     $('#image').after('<div class="alert alert-danger error">Image  is required</div>')
+                            // }
 
                         }
                     }

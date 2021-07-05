@@ -43,6 +43,7 @@ class BlogController extends Controller
             'title' => 'required|min:5',
             'sub_title' => 'required',
             'desc' => 'required',
+            'image' => 'required',
         ]);
 
         $image= request()->file('image');

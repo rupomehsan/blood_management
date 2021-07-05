@@ -31,8 +31,10 @@ class HomeController extends Controller
 
     public function alldoner()
     {
+        $divitions = Divition::all();
+        $districts = District::all();
         $alldoners = Registration::paginate(10);
-        return view('client.doner.index', compact('alldoners'));
+        return view('client.doner.index', compact('alldoners','divitions','districts'));
     }
 
     public function donerdetailse($id)
@@ -91,8 +93,8 @@ class HomeController extends Controller
             'divition_id' => 'required',
             'district_id' => 'required',
             'donate_status' => 'required',
-//            'image' => 'required'
-        ]);
+            // 'image' => 'required'
+        ]); 
 
         $image = request()->file('image');
 
@@ -180,14 +182,38 @@ class HomeController extends Controller
         ]);
     }
 
-//    public function searchPost(){
-//        $data = request()->validate([
-//            'search' => 'required'
-//        ]);
-//
-//        $posts = Post::where('status', 'active')->where('title', 'like', '%' . request('search') . '%')->latest()->get();
-//
-//        return view('client.search.index', compact('posts'));
-//    }
+    public function get_doner_by_divition_id($id){
+        $srcDoner = Registration::where('divition_id',$id)->get();
+        return response()->json([
+            'status' => 'ok',
+            'srcDoner' => $srcDoner
+        ]);
+    }
+    public function get_doner_by_district_id($id){
+        $srcDoner = Registration::where('district_id',$id)->get();
+        return response()->json([
+            'status' => 'ok',
+            'srcDoner' => $srcDoner
+        ]);
+    }
+
+   public function searchDoner(){
+       $data = request()->validate([
+           'search' => 'required'
+       ]);
+
+       $srcDoner = Registration::where('name', 'like', '%' . request('search') . '%')
+       ->orWhere('email', 'like', '%' . request('search') . '%')
+       ->orWhere('email', 'like', '%' . request('search') . '%')
+       ->orWhere('address', 'like', '%' . request('search') . '%')
+       ->get();
+
+       return response()->json([
+            'status' => 'ok',
+            'srcDoner' => $srcDoner
+       ]);
+
+    //    return view('client.search.index', compact('posts'));
+   }
 
 }

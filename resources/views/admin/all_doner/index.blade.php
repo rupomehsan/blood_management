@@ -8,7 +8,7 @@
 
               <h4><i class="fa fa-angle-right"></i>All blood doner informasion</h4><hr>
                  <form method="GET" action="serch-result.php">
-                          <input type="text" name="search" placeholder="Search....." >
+                          <input type="text" id="search" placeholder="Search....." >
                           <button type="submit"><i class="fa fa-search"></i></button>
                    </form>
 
@@ -31,7 +31,7 @@
         
                           </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="tablebody">
                       @if (count($allblooddoners))
                           @foreach ($allblooddoners as $alldoner)
                               <tr>
@@ -150,6 +150,48 @@
 
 
   }
+
+  $('#search').keyup(function(){
+  var search = $('#search').val()
+  $.ajax({
+    url : '{{url('api/search-doner')}}',
+    method: 'get',
+    data : {
+      'search' : search,
+      },
+    dataType : 'json',
+    success: function(res){
+      console.log(res)
+      if(res.searchdoner){
+        $('#tablebody').empty()
+
+        res.searchdoner.forEach(function(item){
+          $('#tablebody').append(`
+              <tr>
+                <td>${item.id}</td>
+                <td>${item.name}</td>
+                <td>${item.phone}</td>
+                <td>${item.email}</td>
+                <td>${item.address}</td>
+                <td>${item.social_link}</td>
+                <td>${item.bloodgroup_id}</td>
+                <td>${item.divition_id}</td>
+                <td>${item.district_id}</td>
+                <td>${item.created_at}</td>
+                <td>
+                 
+                </td>
+              </tr>
+          `)
+        })
+      
+      }
+    },
+    error : function(err){
+
+    }
+  })
+ })
 </script>
 @endsection
 

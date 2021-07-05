@@ -127,4 +127,37 @@ class AlldonerController extends Controller
             'status' => 'done'
         ]);
     }
+
+    public function get_doner(){
+
+        $getdoner = Registration::where('status',1)->take(10)->get();
+        $donercount = $getdoner->count();
+        return response()->json([
+            'getdoner' => $getdoner,
+            'donercount' =>$donercount
+        ]);
+    }
+    public function seen_doner($id){
+
+        $doners = Registration::where('id',$id)->first();
+        $doners->status = 0;
+        $doners->update();
+        return response()->json([
+            'msg' =>'successfully update'
+           
+        ]);
+    }
+
+    public function search_doner(){
+        $searchdoner = Registration::where('name','like', '%' . request('search') . '%')
+        ->orWhere('email','like', '%' . request('search') . '%')
+        ->orWhere('phone','like', '%' . request('search') . '%')
+        ->orWhere('address','like', '%' . request('search') . '%')
+        ->get();
+        return response()->json([
+            'searchdoner' => $searchdoner
+        ]);
+    }
+
+
 }

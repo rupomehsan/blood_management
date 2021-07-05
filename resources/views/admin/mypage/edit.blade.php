@@ -52,7 +52,9 @@
             Formdata.append('_method','PATCH')
             Formdata.append('title',title)
             Formdata.append('desc',desc)
-            Formdata.append('image',image)
+            if(image !== null){
+                Formdata.append('image',image)
+            }
             Formdata.append('id',id)
     
             $.ajax({

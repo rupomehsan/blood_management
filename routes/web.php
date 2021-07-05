@@ -28,6 +28,9 @@ Route::post('/contact', [HomeController::class, 'contact'])->name('contact.store
 Route::get('/blood-registration', [HomeController::class, 'registration'])->name('website.registration');
 Route::post('/blood-registration', [HomeController::class, 'store'])->name('website.registration.store');
 Route::get('/all-blood-doner', [HomeController::class, 'alldoner'])->name('website.alldoner');
+Route::get('/all-blood-doner/divition/{id}', [HomeController::class, 'get_doner_by_divition_id'])->name('website.get_doner_by_divition_id');
+Route::get('/all-blood-doner/district/{id}', [HomeController::class, 'get_doner_by_district_id']);
+Route::get('/all-blood-doner/search', [HomeController::class, 'searchDoner']);
 Route::get('/blood-doner-detailse/{id}', [HomeController::class, 'donerdetailse']);
 Route::get('/all-blogs', [HomeController::class, 'blog'])->name('website.blog');
 Route::get('/single-blog/{id}', [HomeController::class, 'singleblog'])->name('website.singleblog');
