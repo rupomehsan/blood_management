@@ -193,7 +193,7 @@ class HomeController extends Controller
         ]);
     }
     public function get_doner_by_district_id($id){
-        $srcDoner = Registration::where('district_id',$id)->get();
+        $srcDoner = Registration::where('district_id',$id)->with(['divition','district','bloodgroup'])->get();
 
         return response()->json([
             'status' => 'ok',
