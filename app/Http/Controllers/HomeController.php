@@ -201,7 +201,7 @@ class HomeController extends Controller
         ]);
     }
 
-    public $group_name;
+   public $group_name;
 
    public function searchDoner(Request $request){
     //    $data = request()->validate([

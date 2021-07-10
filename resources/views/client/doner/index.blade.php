@@ -300,11 +300,11 @@
                                     <td>${item.phone}</td>
                                     <td>${item.email}</td>
                                     <td>${item.address}</td>
-                                    <td>${item.bloodgroup_id}</td>
-                                    <td>${item.divition_id}</td>
-                                    <td>${item.district_id}</td>
+                                    <td>${item.bloodgroup.name}</td>
+                                    <td>${item.divition.name}</td>
+                                    <td>${item.district.name}</td>
                                     <td>
-                                        <a href="{{url('blood-doner-detailse',$alldoner->id)}}">
+                                        <a href="blood-doner-detailse/${item.id}">
                                         <i class="fa fa-plus-circle" aria-hidden="true"></i></a>
                                     </td>
                                  </tr>
