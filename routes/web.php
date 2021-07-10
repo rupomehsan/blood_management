@@ -9,8 +9,10 @@ use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\UsermessegeController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
+use App\Models\Bloodgroup;
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,6 +55,27 @@ Route::middleware('auth')->prefix('backend')->group(function () {
     Route::resource('settings', SettingController::class);
     Route::post('changepass', [AuthController::class, 'changepass']);
 });
+
+
+// Route::get('/test_data',function(Request $request){   
+//     return Bloodgroup::latest()->get();
+//     // Storage::put('test',$request->file('file'));
+// });
+// Route::post('/test_post',function(Request $request){   
+//     Bloodgroup::create($request->all());
+//     // Storage::put('test',$request->file('file'));
+// });
+// Route::get('/test_delete/{id}',function($id){   
+//     Bloodgroup::where('id',$id)->delete();
+//     // Storage::put('test',$request->file('file'));
+// });
+// Route::post('/test_update',function(Request $request){   
+//     Bloodgroup::where('id',$request->id)->update([
+//         'name' => $request->name,
+//     ]);
+//     // Storage::put('test',$request->file('file'));
+// });
+
 
 
 

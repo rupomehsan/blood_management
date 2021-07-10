@@ -122,7 +122,11 @@ class AlldonerController extends Controller
      */
     public function destroy($id)
     {
-        Registration::find($id)->delete();
+        $deldoner = Registration::find($id);
+        if(file_exists($deldoner->image)){
+            unlink($deldoner->image);
+        }
+        $deldoner->delete();
         return response()->json([
             'status' => 'done'
         ]);

@@ -10,6 +10,8 @@ use App\Models\District;
 use App\Models\Divition;
 use App\Models\Registration;
 use App\Models\Station;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Image;
 use Str;
 
@@ -17,7 +19,6 @@ class HomeController extends Controller
 {
     public function index()
     {
-
         $blogs = Blog::take(2)->orderBy('id', 'desc')->get();
         return view('client.home.index', compact('blogs'));
     }
@@ -183,7 +184,9 @@ class HomeController extends Controller
     }
 
     public function get_doner_by_divition_id($id){
-        $srcDoner = Registration::where('divition_id',$id)->get();
+        $srcDoner = Registration::where('divition_id',$id)->with(['divition','district','bloodgroup'])->get();
+
+        // dd($srcDoner);
         return response()->json([
             'status' => 'ok',
             'srcDoner' => $srcDoner
@@ -191,23 +194,59 @@ class HomeController extends Controller
     }
     public function get_doner_by_district_id($id){
         $srcDoner = Registration::where('district_id',$id)->get();
+
         return response()->json([
             'status' => 'ok',
             'srcDoner' => $srcDoner
         ]);
     }
 
-   public function searchDoner(){
-       $data = request()->validate([
-           'search' => 'required'
-       ]);
+    public $group_name;
 
-       $srcDoner = Registration::where('name', 'like', '%' . request('search') . '%')
-       ->orWhere('email', 'like', '%' . request('search') . '%')
-       ->orWhere('email', 'like', '%' . request('search') . '%')
-       ->orWhere('address', 'like', '%' . request('search') . '%')
+   public function searchDoner(Request $request){
+    //    $data = request()->validate([
+    //        'search' => 'required',
+    //        'divition_id' => 'required',
+    //        'district_id' => 'required',
+    //    ]);
+    //    dd($request->all());
+
+        $this->group_name = $request->search;
+       $srcDoner = Registration::where('divition_id', $request->divition_id)
+       ->where('district_id',  '=' ,$request->district_id)
+    //    ->orwhere('name', 'like', '%' .$request->search )
+        ->whereExists(function ($query) {
+            $query->select(DB::raw(1))
+                ->from('bloodgroups')
+                ->where('bloodgroups.name', 'LIKE', "%". $this->group_name. "%");
+        })
+        ->with(['divition','district','bloodgroup'])
+    //    ->orWhere('phone', 'like', '%' . request('search') . '%')
+    //    ->orWhere('email', 'like', '%' . request('search') . '%')
+    //    ->orWhere('address', 'like', '%' . request('search') . '%')
+
        ->get();
 
+    //    $this->size = (int) $request->size;
+    //             $products = $main_category->related_products()->with([
+    //                 'category',
+    //                 'sub_category',
+    //                 'main_category',
+    //                 'color',
+    //                 'image',
+    //                 'publication',
+    //                 'size',
+    //                 'unit',
+    //                 'writer',
+    //             ])->whereExists(function ($query) {
+    //                 $query->select(DB::raw(1))
+    //                     ->from('product_size')
+    //                     ->whereRaw('product_size.product_id = products.id')
+    //                     ->where('product_size.size_id',$this->size);
+    //             })->orderBy('id', 'DESC')->paginate(16);
+
+       
+       
        return response()->json([
             'status' => 'ok',
             'srcDoner' => $srcDoner

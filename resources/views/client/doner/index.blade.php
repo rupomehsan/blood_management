@@ -36,6 +36,23 @@
 
 
                 </form>
+{{-- 
+                <div id="test_view" class=" border border-success" style="padding: 10px; background: rgb(41, 41, 41);color:white">
+                    <input type="text" v-model="new_blood_name" value="test data" class="form-control">
+                    <button type="button" v-if="type=='create'" @click.prevent="add_group" class="btn btn-success">add New</button>
+                    <button type="button" v-else @click.prevent="update" class="btn btn-warning">update</button>
+                    <br>
+                    <br>
+                    <table class="table table-bordered" style="padding: 10px; background: rgb(41, 41, 41);color:white">
+                        <tr v-for="item in blood" :key="item.id">
+                            <td>@{{item.name}}</td>
+                            <td>@{{item.id}}</td>
+                            <td><span class="btn btn-danger" @click.prevent="delete_group(item.id)">delete</span></td>
+                            <td><span  @click.prevent="edit(item.name,item.id)" class="btn btn-warning">edit</span></td>
+                            <td><span>view</span></td>
+                        </tr>
+                    </table>
+                </div> --}}
             </div>
 
         </div>
@@ -109,7 +126,96 @@
 
 @endsection
 @section('custom_js')
+    <script src="https://md-shefat-masum.github.io/projonmo/js/vue.js"></script>
     <script>
+        $.ajaxSetup({
+            cache:false,
+            contentType: false,
+            processData: false,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            },
+            error: function (err) {
+                console.log(err.responseJSON.errors);
+                for (const key in err.responseJSON.errors) {
+                    if (Object.hasOwnProperty.call(err.responseJSON.errors, key)) {
+                        const element = err.responseJSON.errors[key];
+                        $('span#'+key).html(element);
+                    }
+                }
+            }
+        });
+        // if (document.getElementById('test_view')) {
+
+        //     // Vue.component('button-counter', {
+        //     //     data: function () {
+        //     //         return {
+        //     //             count: 0
+        //     //         }
+        //     //     },
+        //     //     template: '<button v-on:click="count++">You clicked me @{{ count }} times.</button>'
+        //     // })
+
+        //     const app = new Vue({
+        //         el: '#test_view',
+        //         data: function(){
+        //             return {
+        //                 blood: [],
+        //                 new_blood_name: '',
+        //                 blood_id: '',
+        //                 type: 'create',
+        //             }
+        //         },
+        //         created: function(){
+        //             this.get_bloods();
+        //         },
+        //         methods: {
+        //             edit: function(name, id){
+        //                 this.new_blood_name = name;
+        //                 this.blood_id = id;
+        //                 this.type = 'edit';
+        //             },
+        //             update: function(){
+        //                 let data = new FormData();
+        //                 data.append('name',this.new_blood_name);
+        //                 data.append('id',this.blood_id);
+        //                 $.post('/test_update',data,(res)=>{
+        //                     this.get_bloods();
+        //                 })
+        //             },
+        //             get_bloods: function(){
+        //                 $.get('/test_data',(res)=>{
+        //                     this.blood = res;
+        //                 })
+        //             },
+        //             add_group:function(){
+        //                 let data = new FormData();
+        //                 data.append('name',this.new_blood_name)
+        //                 $.post('/test_post',data,(res)=>{
+        //                     this.new_blood_name = '';
+        //                     this.get_bloods();
+        //                 })
+        //             },
+        //             delete_group: function(id){
+        //                 $.get('/test_delete/'+id,(res)=>{
+        //                     this.get_bloods();
+        //                 })
+        //             }
+        //         }
+        //     })
+        // }
+    </script>
+    <script>
+            
+            // $('#form_test').on('submit',function(e){
+            //     e.preventDefault();
+            //     let data = new FormData($(this)[0]);
+            //     data.append('names','shefat');
+            //     $.post($(this).attr('action'),data,(res)=>{
+            //         console.log(res);
+                    
+            //     })
+            // })
             $('#divition_id').change(function () {
                 var divition_id = $('#divition_id').val()
               
@@ -157,11 +263,11 @@
                                     <td>${item.phone}</td>
                                     <td>${item.email}</td>
                                     <td>${item.address}</td>
-                                    <td>${item.bloodgroup_id}</td>
-                                    <td>${item.divition_id}</td>
-                                    <td>${item.district_id}</td>
+                                    <td>${item.bloodgroup.name}</td>
+                                    <td>${item.divition.name}</td>
+                                    <td>${item.district.name}</td>
                                     <td>
-                                        <a href="{{url('blood-doner-detailse',$alldoner->id)}}">
+                                        <a href="/blood-doner-detailse/${item.id}">
                                         <i class="fa fa-plus-circle" aria-hidden="true"></i></a>
                                     </td>
                                  </tr>
@@ -214,12 +320,17 @@
 
             $('#search').keyup(function(){
                 var search = $('#search').val()
+                var divition_id = $('#divition_id').val()
+                var district_id = $('#district_id').val()
+                // console.log(district_id,divition_id)
 
                 $.ajax({
                     url: '{{url('all-blood-doner/search')}}',
                     method: 'get',
                     data :{
                         'search' : search,
+                        'divition_id' : divition_id,
+                        'district_id' : district_id,
                     },
                     datatype: 'json',
                     success: function (res) {
@@ -234,9 +345,9 @@
                                     <td>${item.phone}</td>
                                     <td>${item.email}</td>
                                     <td>${item.address}</td>
-                                    <td>${item.bloodgroup_id}</td>
-                                    <td>${item.divition_id}</td>
-                                    <td>${item.district_id}</td>
+                                    <td>${item.bloodgroup.name}</td>
+                                    <td>${item.divition.name}</td>
+                                    <td>${item.district.name}</td>
                                     <td>
                                         <a href="{{url('blood-doner-detailse',$alldoner->id)}}">
                                         <i class="fa fa-plus-circle" aria-hidden="true"></i></a>

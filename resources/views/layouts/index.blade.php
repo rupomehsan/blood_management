@@ -3,6 +3,7 @@
 <!-- Mirrored from tavillathemes.com/html/stam/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 31 Jul 2018 15:43:43 GMT -->
 <head>
     <title>MD.RUPOM EHSAN</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta charset="UTF-8">
     <meta name="description" content="Developer.MD RupomEhsan - Personal Portfolio">
     <meta name="keywords" content="re blood bank, rupom ehsan blood bank,blood bank bd">
